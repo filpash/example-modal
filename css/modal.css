@@ -1,7 +1,14 @@
+body {
+    background: #c0c0aa;
+    background: -webkit-linear-gradient(to right, #1cefff, #c0c0aa);
+    background: linear-gradient(to right, #1cefff, #c0c0aa);
+
+}
+
 h1 {
     text-align: center;
     padding-top: 10px;
-    color: aliceblue;
+    color: antiquewhite;
     text-shadow: 1px 1px 2px black;
 }
 
@@ -12,6 +19,7 @@ h1 {
     left: 0;
     bottom: 0;
     background: rgba(0,12,64, .5);
+    transition: background .2s ease-in;
 }
 
 .modal-window {
@@ -19,7 +27,45 @@ h1 {
     border-radius: 5px;
     margin: 100px auto;
     background: aliceblue;
+    transition: transform .2s ease-in;
 }
+
+.fmodal {}
+
+.fmodal.open .modal-overlay,
+.fmodal.open .modal-window {
+    opacity: 1;
+    z-index: 1000;
+}
+
+.fmodal.hide .modal-overlay,
+.fmodal.hide .modal-window {
+    opacity: 1;
+    z-index: 1000;
+}
+
+.fmodal.open .modal-window {
+    transform: translateY(100px);
+}
+
+.fmodal.open .modal-overlay {
+    background: rgba(0,12,64, .5);
+}
+
+.fmodal.hide .modal-window {
+    transform: translateY(-300px);
+}
+
+.fmodal.hide .modal-overlay {
+    background: rgba(0,0,0, 0);
+}
+
+.modal-window,
+.modal-overlay {
+    opacity: 0;
+    z-index: -1;
+}
+
 
 .modal-header {
     padding: 5px 10px;
