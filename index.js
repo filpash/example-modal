@@ -10,8 +10,8 @@ const toHTML = cars => `
             <img src="${cars.img}" style="height: 300px;" class="card-img-top" alt="${cars.title}">
             <div class="card-body">
                 <h5 class="card-title">${cars.title}</h5>
-                <a href="#" class="btn btn-primary" data-btn="price" data-id="">Посмотреть цену</a>
-                <a href="#" class="btn btn-danger" data-btn="remove" data-id="">Удалить</a>
+                <a href="#" class="btn btn-primary" data-btn="price" data-id="${cars.id}">Watch coast</a>
+                <a href="#" class="btn btn-danger" data-btn="remove" data-id="${cars.id}">Delete</a>
             </div>
         </div>
     </div>
@@ -23,23 +23,38 @@ function render() {
 }
 render()
 
-const modal = $.modal({
-    title: 'New Title',
+const priceModal = $.modal({
+    title: 'Coast',
     closable: true,
-    content: `
-            <h4>Modal content</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur.</p>
-    `,
     width: '400px',
     footerButtons: [
-        {text: 'Ok', type: 'primary', handler(){
-            console.log('Primary btn clicked')
-            modal.close()
-        }},
-        {text: 'Cancel', type: 'danger', handler(){
-            console.log('Danger btn clicked')
-            modal.close()
+        {text: 'Close', type: 'primary', handler(){
+                priceModal.close()
         }}
     ]
+})
+
+document.addEventListener('click', event => {
+    event.preventDefault()
+    const btnType = event.target.dataset.btn
+    const id = +event.target.dataset.id
+    const car = cars.find(f => f.id === id)
+
+    if (btnType === 'price') {
+        priceModal.setContent(`
+            <p>Car ${car.title}: <strong>${car.price}$</strong></p>
+        `)
+        priceModal.open()
+    } else if (btnType === 'remove') {
+        $.confirm({
+            title: 'Are you sure?',
+            content: `<p>You remove car: <strong>${car.title}</strong></p>`
+        }).then(() => {
+            cars = cars.filter(f => f.id !== id)
+            render()
+        }).catch(() => {
+            console.log('Cancel')
+        })
+    }
 })
 
